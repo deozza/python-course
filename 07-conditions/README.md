@@ -9,7 +9,6 @@
     - [La yoda condition](#la-yoda-condition)
   - [If](#if)
   - [Switch](#switch)
-  - [Match](#match)
   - [Opérateur ternaire](#opérateur-ternaire)
 <!--toc:end-->
 
@@ -112,11 +111,11 @@ actualValue = 12
 
 if(actualValue < 20):
   print('Not even close')
-else if(actualValue < 40):
+elif(actualValue < 40):
   print('Still far')
-else if(actualValue < 60):
+elif(actualValue < 60):
   print('Nearly there')
-else if(actualValue < 70):
+elif(actualValue < 70):
   print('A last effort')
 else:
   print('success')
@@ -124,44 +123,25 @@ else:
 
 ## Switch
 
-Pour éviter d'enchainer plusieurs `if else if` qui mettent des conditions sur la même variable, on peut utiliser l'expression `switch` :
+Pour éviter d'enchainer plusieurs `if elif` qui mettent des conditions sur la même variable, on peut utiliser l'expression `switch` :
 
 ```python
 actualValue = 12
 
-switch(actualValue):
+match actualValue:
   case actualValue < 20 :
     print('Not even close')
-    break
   case actualValue < 40 :
     print('Still far')
-    break
   case actualValue < 60 :
     print('Nearly there')
-    break
   case actualValue < 70 :
     print('A last effort')
-    break
-  default :
+  case _:
     print('success')
-    break
 ```
 
 Chaque `case` est un `if`. Le `default` correspond au `else` final, le comportement par *défaut* si aucune condition n'est remplie.
-
-## Match
-
-```python
-```
-
-L'expression `match` a été introduite par python 8.0. Elle ressemble dans l'esprit au `switch` mais se distingue par plusieurs différences :
-
-- pour un `switch`, `'8'` et `8` sont la même valeur ce n'est pas le cas avec `match`
-- `match` renvoie automatiquement une valeur, il faut le faire manuellement avec `switch`
-- si aucune condition n'est remplie et qu'il n'y a pas de `default`, une `\Exception` sera levée
-- `match` n'exécute pas le code à droite du `=>` si la condition à sa gauche n'est pas remplie, contrairement au `switch` et aux tableaux
-
-`match` est fait pour remplacer `switch`, avec de meilleures comparaisons, un code plus lisible et une meilleure rigidité. Si l'objectif de l'algorithme est de simplement faire une association `clef-valeur`, il vaut mieux utiliser les fonctionnalités d'un tableau.
 
 ## Opérateur ternaire
 
@@ -170,7 +150,7 @@ Prenons le cas où on fait un `if` pour assigner une valeur à une variable :
 ```python
 actualValue = 12
 
-if(actualValue >= 0):
+if actualValue >= 0:
   message = 'le chiffre est positif'
 else:
   message = 'le chiffre est négatif'

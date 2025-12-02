@@ -1,0 +1,40 @@
+
+----------------
+Working on line with numbers : 7,6,4,2,1
+Comparing number 7 with number 6
+Comparing number 6 with number 4
+Comparing number 4 with number 2
+Comparing number 2 with number 1
+Line is safe
+----------------
+Working on line with numbers : 1,2,7,8,9
+Comparing number 1 with number 2
+Comparing number 2 with number 7
+Distance is invalid
+----------------
+Working on line with numbers : 9,7,6,2,1
+Comparing number 9 with number 7
+Comparing number 7 with number 6
+Comparing number 6 with number 2
+Distance is invalid
+----------------
+Working on line with numbers : 1,3,2,4,5
+Comparing number 1 with number 3
+Comparing number 3 with number 2
+Order has changed
+----------------
+Working on line with numbers : 8,6,4,4,1
+Comparing number 8 with number 6
+Comparing number 6 with number 4
+Comparing number 4 with number 4
+Distance is invalid
+----------------
+Working on line with numbers : 1,3,6,7,9
+Comparing number 1 with number 3
+Comparing number 3 with number 6
+Comparing number 6 with number 7
+Comparing number 7 with number 9
+Line is safe
+----------------
+Working on line with numbers : 
+Line is safe
