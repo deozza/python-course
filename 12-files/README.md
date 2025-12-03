@@ -63,7 +63,7 @@ while True:
 Pour lire un fichier binaire, il suffit de changer le mode d'ouverture du flux :
 
 ```python
-handle = open('/path/to/file.pdf', 'rb')
+handle = open(r'/path/to/file.pdf', 'rb')
 content = handle.read()
 ```
 
@@ -84,19 +84,6 @@ content = handle.read()
 handle.close()
 ```
 
-## Les raccourcis
-
-Les manipulations de fichier avec `fopen()` sont à utiliser dans des cas spécifiques et ne sont pas les méthodes recommandées.
-
-En général, il vaut mieux utiliser `file_get_contents()` et `file_put_contents()` :
-
-```python
-content = file_get_contents('/path/to/file')
-file_put_contents('/path/to/file', 'new content')
-file_put_contents('/path/to/file', 'more content', FILE_APPEND)
-
-```
-
 ## Rappel sur chemin relatif et chemin absolu
 
 Chemin relatif : chemin qui démarre au niveau du fichier qui exécute l'instruction.
@@ -107,12 +94,3 @@ Chemin absolu : chemin complet.
 - `./path/to/file.txt` => chemin relatif
 - `./../../path/to/file.txt` => chemin relatif
 - `/path/to/file.txt` => chemin absolu
-
-Utiliser un chemin relatif peut créer des erreurs selon l'endroit où on exécute les instructions. Pour toujours utiliser un chemin absolu, on peut utiliser la constante `__DIR__` :
-
-```python
-//current path : /home/dev/project/index.python
-
-filePath = __DIR__ . './content.csv' // complete path : /home/dev/project/content.csv
-
-```
