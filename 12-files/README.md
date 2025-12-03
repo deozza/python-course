@@ -8,9 +8,6 @@
   - [Définition](#définition)
   - [Manipulation générale](#manipulation-générale)
   - [Les raccourcis](#les-raccourcis)
-  - [Plus de fonctions](#plus-de-fonctions)
-  - [Les fichiers JSON](#les-fichiers-json)
-  - [Les fichiers CSV](#les-fichiers-csv)
   - [Rappel sur chemin relatif et chemin absolu](#rappel-sur-chemin-relatif-et-chemin-absolu)
 <!--toc:end-->
 
@@ -23,59 +20,68 @@
 ## Manipulation générale
 
 ```python
-handle = fopen('/path/to/file', 'r')
-
+handle = open('file.txt')
 ```
 
-La fonction `fopen()` permet de créer un flux vers une url. Le premier argument est l'url, le lien vers le fichier à manipuler. Le second est le mode du flux.
+La fonction `open` permet de créer un flux vers un fichier, dont le nom est donné en argument. Par défaut, le flux est en lecture seulement. Dans cet exemple, comme un chemin relatif est donné, la fonction va chercher à ouvrir un fichier se trouvant dans le même dossier que le script qui l'exécute.
 
-- `r` => lecture
-- `w` => si le fichier n'existe pas, il est créé en écriture, s'il existe déjà son contenu est entièrement supprimé pour en rajouter un nouveau
-- `a` => ouvre un fichier en écriture pour rajouter du contenu
-
-`fopen()` ne lit pas le contenu du fichier. Pour le lire, on peut utiliser `fread()`. On passera à la fonction le flux ainsi que la taille du fichier à lire :
+Si on veut donner un chemin absolu, on préfèrera utiliser cette forme :
 
 ```python
-handle = fopen('/path/to/file', 'r')
-content = fread(handle, filesize('/path/to/file'))
-
+handle = open(r'C:\path\to\file.txt')
 ```
 
-Si on souhaite lire le contenu ligne par ligne, on peut utiliser `fgets()` dans une boucle while :
+*Rajouter un `r` devant une chaîne de caractère permet de la traiter en `raw` et d'ignorer tout ce qui est interprétable (`\t` par exemple qui rajoute un `tab`).*
+
+`open()` ne lit pas le contenu du fichier. Pour le lire, on peut utiliser `.read()` :
 
 ```python
-handle = fopen('/path/to/file', 'r')
-
-line = fgets(handle)
-
-while(line !== false) {
-  echo line
-  line = fgets(handle)
-}
+handle = open('/path/to/file')
+content = handle.read()
 ```
 
-Explication :
-
-- ouverture d'un flux en lecture vers un fichier avec `fopen()`
-- récupération de la première ligne avec `fgets()`
-- tant que `fgets()` retourne une ligne, on traite la ligne
-
-Pour écrire dans un fichier, il faut utiliser la fonction `fwrite()` :
+Si on souhaite lire le contenu ligne par ligne, on peut utiliser une boucle `for` :
 
 ```python
-handle = fopen('/path/to/file', 'w')
+handle = open(r'C:\path\to\file.txt')
+for line in handle:
+  print(line)
+```
+
+On peut également lire `chunks` par `chunks` (morceaux) avec une boucle `while` et `read()`:
+
+```python
+handle = open(r'C:\path\to\file.txt')
+
+while True:
+  data = handle.read(1024) # lecture d'un kilobyte de données
+  if not data: # verification qu'on n'est pas au bout du fichier
+    break # sortie de la boucle
+  print(data)
+```
+
+Pour lire un fichier binaire, il suffit de changer le mode d'ouverture du flux :
+
+```python
+handle = open('/path/to/file.pdf', 'rb')
+content = handle.read()
+```
+
+Pour écrire dans un fichier, il faut utiliser la fonction `write()` et `open()` avec un flux en écriture :
+
+```python
+handle = open('/path/to/file', 'w')
 content = 'hello world'
 
-fwrite(handle, content)
+handle.write(content)
 ```
 
-Une fois que la manipulation de fichier est finie, il faut fermer le flux avec `fclose()` :
+Une fois que la manipulation de fichier (en écriture ou en lecture) est finie, il faut fermer le flux avec `close()` :
 
 ```python
-handle = fopen('/path/to/file', 'r')
-content = fread(handle, filesize('/path/to/file'))
-fclose(handle)
-
+handle = open('/path/to/file')
+content = handle.read()
+handle.close()
 ```
 
 ## Les raccourcis
@@ -88,68 +94,6 @@ En général, il vaut mieux utiliser `file_get_contents()` et `file_put_contents
 content = file_get_contents('/path/to/file')
 file_put_contents('/path/to/file', 'new content')
 file_put_contents('/path/to/file', 'more content', FILE_APPEND)
-
-```
-
-## Plus de fonctions
-
-- `unlink()` => supprimer un fichier
-- `file_exists()` => vérifier si un fichier existe
-
-## Les fichiers JSON
-
-Un fichier au format JSON est un fichier texte avec un formatage particulier. Ce formatage permet de structurer les données pour pouvoir mieux les manipuler dans un programme.
-
-Pour lire un fichier JSON, il faut récupérer son contenu et le décoder :
-
-```python
-fileContent = file_get_contents('/path/to/file.json')
-contentAsArray = json_decode(fileContent, true)
-
-```
-
-Pour créer un fichier JSON, il faut d'abord s'assurer que le contenu soit un `string` ou castable en `string`. Si ce n'est pas le cas (un tableau par exemple), il faudra encoder le contenu au format json :
-
-```python
-content = ['not', 'a', 'string']
-contentAsJson = json_encode(content)
-file_put_contents('/path/to/file.json', contentAsJson)
-
-```
-
-## Les fichiers CSV
-
-Un fichier au format CSV est un fichier texte avec un formatage particulier. Ce formatage permet de structurer les données comme un tableur.
-
-Pour lire un fichier au format CSV, il vaut mieux utiliser `fopen()` avec une variante de `fgets()`, `fgetcsv()`:
-
-```python
-handle = fopen('/path/to/file.csv', 'r')
-row = fgetcsv(handle, 1000, ',', '"', '\\')
-input = []
-while(row !== false) {
-    input[] = row
-    row = fgetcsv(handle, 1000, ',', '"', '\\')
-}
-fclose(handle)
-
-```
-Pour rajouter du contenu dans un fichier CSV, on utilisera `fopen()` avec une variante de `fputs()`, `fputcsv()` :
-
-```python
-list = [
-    ['aaa', 'bbb', 'ccc', 'dddd'],
-    ['123', '456', '789'],
-    ['"aaa"', '"bbb"']
-]
-
-handle = fopen('/path/to/file.csv', 'w')
-
-foreach (list as fields) {
-     fputcsv(handle, fields, ',', '"', '')
-}
-
-fclose(handle)
 
 ```
 
