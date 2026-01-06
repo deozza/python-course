@@ -145,7 +145,7 @@ if os.path.isfile(path) == false:
 else:
     fileHandler = open(path)
     fileContent = fileHandler.read()
-    fileContentAsDictionnary = json.reads(fileContent)
+    fileContentAsDictionnary = json.loads(fileContent)
 ```
 
 Pour créer un fichier JSON, on peut utiliser un dictionnaire ou une liste : 
