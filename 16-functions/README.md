@@ -169,4 +169,3 @@ res = calc(3, 4)
 print(res) # (7, 12)
 ```
 
-## Fonctions intégrées de haut niveau
