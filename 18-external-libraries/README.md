@@ -2,7 +2,7 @@
 
 
 https://datascientist.fr/blog/tutoriel-python-gerer-les-dependances-avec-pip
-
+https://python101.pythonlibrary.org/chapter29_pip.html
 ## Exemples
 
 ### Numpy
